@@ -2,5 +2,5 @@ fastapi
 uvicorn
 sqlalchemy
 asyncpg
-pydantic
 python-dotenv
+pydantic==1.10.13
