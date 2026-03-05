@@ -1,34 +1,24 @@
 import os
-from pydantic import BaseSettings, Field
-
-
-def get_env_setting(name: str, default=None):
-    return os.getenv(name) or default
-
+from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     # general
     PROJECT_NAME: str = "MediFlow"
-    ENV: str = Field(..., env="ENV")  # staging or production
+    ENV: str = os.getenv("ENV", "production")
 
     # database
-    DATABASE_URL: str
+    DATABASE_URL: str = os.getenv("DATABASE_URL")
 
     # redis / cache
-    REDIS_URL: str
+    REDIS_URL: str = os.getenv("REDIS_URL")
 
     # jwt
-    JWT_SECRET_KEY: str
+    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY")
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
     # stripe
     STRIPE_API_KEY: str = ""
     STRIPE_WEBHOOK_SECRET: str = ""
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-
 
 settings = Settings()
